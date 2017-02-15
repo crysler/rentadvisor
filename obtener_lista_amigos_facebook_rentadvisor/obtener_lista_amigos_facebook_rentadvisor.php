@@ -31,7 +31,8 @@ try {
 // you have the latest dev version of the official SDK
 $graphEdge = $response->getGraphEdge();
  for ($i=0;$i< sizeOf($graphEdge);$i++){
-    print_r($graphEdge[0]);
+    print_r($graphEdge[$i]);
+	echo "<br>";
  }
 
 ?>
