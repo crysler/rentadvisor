@@ -13,6 +13,10 @@ $request = new Facebook\FacebookRequest(
 			['fields' => 'birthday,location,name,id,hometown,email'
 		  ]);
 
+$requestNomnbre = new Facebook\FacebookRequest(
+          $fbApp,
+		  $_SESSION['fb_access_token'],
+		  'GET','/'.$id_user.'?fields=name');
 // con esta funcion permito hacer varios llamados sin repetir codigo
 function retornarGrafo($request,$fb){
 	$response ="";
@@ -36,12 +40,17 @@ return $response;
 	
 //haciendo el request, y guardandolo en otra variable para usarlo luego
 $response=retornarGrafo($request,$fb);
- 
-//llamando al objeto solicitado
-$graphEdge = $response->getGraphEdge();
 
+$response2=retornarGrafo($requestNomnbre,$fb);
+ 
+//llamando al objeto solicitado, aqui uso el getGraphEdge para varios resultados
+$graphEdge = $response->getGraphEdge();
+//un solo resultado individual uso el getGraphNode
+$graphEdge2 = $response2->getGraphNode();
+echo "<br> los amigos de <b>".$graphEdge2['name']."</b> son:"; 
+echo "<br>";
  for ($i=0;$i< sizeOf($graphEdge);$i++){
-    print_r($graphEdge[$i]);
+    echo 'nombre: '.$graphEdge[$i]['name'].' idCodigo: '.$graphEdge[$i]['id'];
 	echo "<br>";
  }
 
